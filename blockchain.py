@@ -78,7 +78,7 @@ if __name__ == "__main__":
 
     # Example entries (people entering the premise)
     blockchain.new_entry(person_id="Alice", time_entered=int(time()))
-    blockchain.new_entry(person_id="Bob", time_entered=int(time()))
+    blockchain.new_entry(person_id="Bob", time_entered=int(time()))        
 
     # Mine a new block
     last_block = blockchain.last_block
@@ -88,5 +88,19 @@ if __name__ == "__main__":
     block = blockchain.create_block(proof, previous_hash)
 
     print("Blockchain:", blockchain.chain)
+
+    # Additional test blocks
+    for i in range(3):
+        # Example entries (people entering the premise)
+        blockchain.new_entry(person_id=f"Person_{i+3}", time_entered=int(time()))
+
+        # Mine a new block
+        last_block = blockchain.last_block
+        last_proof = last_block['proof']
+        proof = blockchain.proof_of_work(last_proof)
+        previous_hash = blockchain.hash(last_block)
+        block = blockchain.create_block(proof, previous_hash)
+
+    print("Blockchain after 2 entries:", blockchain.chain)
 
     visualize_blockchain(blockchain)
